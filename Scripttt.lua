@@ -30,6 +30,15 @@ TabFarm:AddToggle({
                     local character = player.Character
                     if not character or not character:FindFirstChild("HumanoidRootPart") then return end
                     
+                    if not character:FindFirstChildOfClass("Tool") then
+                        for _, t in pairs(player.Backpack:GetChildren()) do
+                            if t:IsA("Tool") then
+                                player.Character.Humanoid:EquipTool(t)
+                                break
+                            end
+                        end
+                    end
+                    
                     local level = player.Data.Level.Value
                     local questVisible = player.PlayerGui.Main.Quest.Visible
                     
@@ -53,9 +62,12 @@ TabFarm:AddToggle({
                         game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("StartQuest", questName, questId)
                         task.wait(1)
                     else
+                        local targetName = "Bandit"
+                        if level >= 10 then targetName = "Monkey" end
+                        
                         for _, mob in pairs(workspace.Enemies:GetChildren()) do
                             if not _G.AutoFarm then break end
-                            if mob:FindFirstChild("HumanoidRootPart") and mob:FindFirstChild("Humanoid") and mob.Humanoid.Health > 0 then
+                            if mob.Name == targetName and mob:FindFirstChild("HumanoidRootPart") and mob:FindFirstChild("Humanoid") and mob.Humanoid.Health > 0 then
                                 repeat
                                     task.wait()
                                     character.HumanoidRootPart.CFrame = mob.HumanoidRootPart.CFrame * CFrame.new(0, 20, 0)
