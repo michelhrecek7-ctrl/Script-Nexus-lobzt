@@ -1,26 +1,24 @@
 local OrionLib = loadstring(game:HttpGet('https://raw.githubusercontent.com/jensonhirst/Orion/main/source'))()
 
 local Window = OrionLib:MakeWindow({
-    Name = "Nexus Hub | Blox Fruits Pro",
+    Name = "Nexus Hub | Blox Fruits",
     HidePremium = false,
     SaveConfig = true,
-    ConfigFolder = "NexusBloxFruitsPro"
+    ConfigFolder = "NexusBloxFruitsHub"
 })
 
 _G.AutoFarm = false
-_G.FastAttack = false
 _G.AutoStats = false
 _G.AutoChest = false
-_G.ESPPlayers = false
 
 local TabFarm = Window:MakeTab({Name = "Auto Farm", Icon = "rbxassetid://4483345998"})
 local TabStats = Window:MakeTab({Name = "Stats", Icon = "rbxassetid://4483345999"})
-local TabFruits = Window:MakeTab({Name = "Frutas & Gacha", Icon = "rbxassetid://4483345995"})
+local TabFruits = Window:MakeTab({Name = "Frutas", Icon = "rbxassetid://4483345995"})
 local TabTeleport = Window:MakeTab({Name = "Teleportes", Icon = "rbxassetid://4483345997"})
-local TabMisc = Window:MakeTab({Name = "Misc & ESP", Icon = "rbxassetid://4483345996"})
+local TabMisc = Window:MakeTab({Name = "Misc", Icon = "rbxassetid://4483345996"})
 
 TabFarm:AddToggle({
-    Name = "Auto Farm Level (Quest + Ataque)",
+    Name = "Auto Farm Level",
     Default = false,
     Callback = function(Value)
         _G.AutoFarm = Value
@@ -72,21 +70,8 @@ TabFarm:AddToggle({
     end
 })
 
-TabFarm:AddToggle({
-    Name = "Fast Attack (Ataque Rápido)",
-    Default = false,
-    Callback = function(Value)
-        _G.FastAttack = Value
-        task.spawn(function()
-            while _G.FastAttack do
-                task.wait(0.1)
-            end
-        end)
-    end
-})
-
 TabStats:AddToggle({
-    Name = "Auto Distribuir Stats (Melee)",
+    Name = "Auto Stats Melee",
     Default = false,
     Callback = function(Value)
         _G.AutoStats = Value
@@ -102,17 +87,16 @@ TabStats:AddToggle({
 })
 
 TabFruits:AddButton({
-    Name = "Girar Fruta (Sem ir ao Zioles)",
+    Name = "Girar Fruta",
     Callback = function()
         pcall(function()
-            local args = {"Cousin"}
-            local resposta = game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+            game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Cousin")
         end)
     end
 })
 
 TabFruits:AddButton({
-    Name = "Guardar Fruta Atual no Inventário (Store)",
+    Name = "Guardar Fruta",
     Callback = function()
         pcall(function()
             for _, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
@@ -134,18 +118,8 @@ TabTeleport:AddButton({
     end
 })
 
-TabTeleport:AddButton({
-    Name = "Ir para Mansão (Third Sea)",
-    Callback = function()
-        lcal player = game.Players.LocalPlayer
-        if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
-            player.Character.HumanoidRootPart.CFrame = CFrame.new(-12462.8, 374.9, -7551.5)
-        end
-    end
-})
-
 TabMisc:AddToggle({
-    Name = "Auto Coletar Baús (Chest Farm)",
+    Name = "Auto Coletar Baús",
     Default = false,
     Callback = function(Value)
         _G.AutoChest = Value
